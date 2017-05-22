@@ -25,7 +25,10 @@ class JSignatureFieldsMixin(models.Model):
     def save(self, *args, **kwargs):
 
         is_new = self.pk is None
-        original = not is_new and self.__class__.objects.get(pk=self.pk)
+        if not is_new:
+            original = self.__class__.objects.get(pk=self.pk)
+        else:
+            original = None
 
         if self.signature:
             if is_new or self.signature != original.signature:
