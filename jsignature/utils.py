@@ -15,16 +15,16 @@ def draw_signature(data, as_file=False):
         if `as_file` is True, a temp file is returned instead of Image instance
     """
 
-    if type(data) is str:
+    if type(data) is str or unicode:
         drawing = json.loads(data)
     elif type(data) is list:
         drawing = data
     else:
-        raise ValueError
+        raise ValueError("Not list, str, or unicode, is " + str(type(data)))
 
     # Compute box
-    width = max(chain(*[d['x'] for d in drawing])) + 10
-    height = max(chain(*[d['y'] for d in drawing])) + 10
+    width = int(max(chain(*[d['x'] for d in drawing])) + 10)
+    height = int(max(chain(*[d['y'] for d in drawing])) + 10)
 
     # Draw image
     im = Image.new("RGBA", (width*AA, height*AA))
